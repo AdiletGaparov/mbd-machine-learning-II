@@ -7,7 +7,6 @@ class MySimpleImputer(BaseEstimator, TransformerMixin):
     
     Here are the imputations:
     Lot Frontage: 0, indicating no lot frontage
-    GarageType: 'None', indicating no garage
     GarageYrBlt: 2100, indicating no garage
     BsmtFinSF1, BsmtFinSF2, BsmtUnfSF, TotalBsmtSF, BsmtFullBath, BsmtHalfBath: 0, indicating no basement
     GarageCars, GarageArea: 0
@@ -18,7 +17,6 @@ class MySimpleImputer(BaseEstimator, TransformerMixin):
     
     _impute_values = {
         'LotFrontage': 0,
-        'GarageType': 'None',
         'GarageYrBlt': 2100,
         'BsmtFinSF1': 0,
         'BsmtFinSF2': 0,

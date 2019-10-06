@@ -34,24 +34,32 @@ class MyValueAddedFeatures(BaseEstimator, TransformerMixin):
         
         try:
             
+            X.loc[:, 'TotalValue'] = 1
+            
             if self.pool:
                 X.loc[:, 'PoolValue'] = X.loc[:, 'PoolArea'] * X.loc[:, 'PoolQC']
+                X.loc[:, 'TotalValue'] = X.loc[:, 'TotalValue'] + X.loc[:, 'PoolValue']
                 
             if self.kitchen:
                 X.loc[:, 'KitchenValue'] = X.loc[:, 'KitchenAbvGr'] * X.loc[:, 'KitchenQual']
+                X.loc[:, 'TotalValue'] = X.loc[:, 'TotalValue'] + X.loc[:, 'KitchenValue']
             
             if self.fireplace: 
                 X.loc[:, 'FireplacesValue'] = X.loc[:, 'Fireplaces'] * X.loc[:, 'FireplaceQu']
+                X.loc[:, 'TotalValue'] = X.loc[:, 'TotalValue'] + X.loc[:, 'FireplacesValue']
                 
             if self.garage:
                 X.loc[:, 'GarageValue'] = X.loc[:, 'GarageArea'] * X.loc[:, 'GarageQual']
+                X.loc[:, 'TotalValue'] = X.loc[:, 'TotalValue'] + X.loc[:, 'GarageValue']
                 
             if self.basement:
                 X.loc[:, 'BsmtValue'] = X.loc[:, 'BsmtFinType1'] * X.loc[:, 'BsmtFinSF1'] + X.loc[:, 'BsmtFinType2'] * X.loc[:, 'BsmtFinSF2']
+                X.loc[:, 'TotalValue'] = X.loc[:, 'TotalValue'] + X.loc[:, 'BsmtValue']
             
             if self.basement_adv:
                 bsmt_value = X.loc[:, 'BsmtFinType1'] * X.loc[:, 'BsmtFinSF1'] + X.loc[:, 'BsmtFinType2'] * X.loc[:, 'BsmtFinSF2']
                 X.loc[:, 'BsmtValueAdv'] = bsmt_value * X.loc[:, 'BsmtExposure']
+                X.loc[:, 'TotalValue'] = X.loc[:, 'TotalValue'] + X.loc[:, 'BsmtValueAdv']
                     
             return X
             

@@ -43,7 +43,7 @@ class MyTimeBasedFeatures(BaseEstimator, TransformerMixin):
                 X.loc[:, 'YrsSinceBuilt'] = X.loc[:, 'YrSold'] - X.loc[:,'YearBuilt'] 
             
             if self.since_house_remod:
-                X.loc[:, 'YrsSinceRemod'] = X.loc[:, 'YrSold'] - X.loc[:, 'YearBuilt']
+                X.loc[:, 'YrsSinceRemod'] = X.loc[:, 'YrSold'] - X.loc[:, 'YearRemodAdd']
                 
             if self.since_garage_built:
                 X.loc[:, 'GarageYrsSinceBuilt'] = X.loc[:, 'YrSold'] - X.loc[:, 'GarageYrBlt']
