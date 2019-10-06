@@ -38,7 +38,7 @@ class MyValueAddedFeatures(BaseEstimator, TransformerMixin):
                 X.loc[:, 'PoolValue'] = X.loc[:, 'PoolArea'] * X.loc[:, 'PoolQC']
                 
             if self.kitchen:
-                X.loc[:, 'KitchenValue'] = X.loc[:, 'Kitchen'] * X.loc[:, 'KitchenQual']
+                X.loc[:, 'KitchenValue'] = X.loc[:, 'KitchenAbvGr'] * X.loc[:, 'KitchenQual']
             
             if self.fireplace: 
                 X.loc[:, 'FireplacesValue'] = X.loc[:, 'Fireplaces'] * X.loc[:, 'FireplaceQu']
@@ -57,12 +57,12 @@ class MyValueAddedFeatures(BaseEstimator, TransformerMixin):
             
         except KeyError:
             cols_related = ['PoolArea', 'PoolQC', 'Fireplaces', 'FireplaceQu', 
-                            'Kitchen', 'KitchenQual', 'GarageArea','GarageQual', 
-                            'BsmtFinType1','BsmtFinSF1','BsmtFinType2','BsmtSF2', 
+                            'KitchenAbvGr', 'KitchenQual', 'GarageArea','GarageQual', 
+                            'BsmtFinType1','BsmtFinSF1','BsmtFinType2','BsmtFinSF2', 
                             'BsmtExposure']
             
             cols_error = list(set(cols_related) - set(X.columns))
-            raise KeyError('The DataFrame does not include the columns:' % cols_error)
+            raise KeyError('[ValueFeatures] DataFrame does not include the columns:', cols_error)
         
         
         

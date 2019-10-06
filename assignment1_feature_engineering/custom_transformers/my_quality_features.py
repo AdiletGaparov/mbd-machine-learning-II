@@ -43,7 +43,8 @@ class MyQualityFeatures(BaseEstimator, TransformerMixin):
         try:
             
             if self.high_quality_sf:
-                X.loc[:, 'HighQualSF_percent'] = (1-X.loc[:, 'LowQualFinSF']) / X.loc[:, 'GrLivArea']
+                X.loc[X['GrLivArea']==0, 'HighQualSF_percent'] = 0
+                X.loc[X['GrLivArea']>0, 'HighQualSF_percent'] = (1-X.loc[:, 'LowQualFinSF']) / X.loc[:, 'GrLivArea']
             
             if self.overall_mult: 
                 X.loc[:, 'OverallEval_mult'] = X.loc[:, 'OverallQual'] * X.loc[:, 'OverallCond']
@@ -77,7 +78,7 @@ class MyQualityFeatures(BaseEstimator, TransformerMixin):
                             'ExterQual', 'ExterCond', 'GarageQual', 
                             'GarageCond', 'BsmtQual', 'BsmtCond']
             cols_error = list(set(cols_related) - set(X.columns))
-            raise KeyError('The DataFrame does not include the columns:' % cols_error)
+            raise KeyError('[QualFeature] DataFrame does not include the columns:', cols_error)
         
         
         

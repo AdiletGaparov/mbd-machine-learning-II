@@ -27,6 +27,6 @@ class MyDropColumns(BaseEstimator, TransformerMixin):
         
         except KeyError:
             cols_error = list(set(self.columns) - set(X.columns))
-            raise KeyError("The DataFrame does not include the columns: %s" % cols_error)
+            raise KeyError("[DropCol] DataFrame does not include the columns: %s", cols_error)
             
             

@@ -62,4 +62,4 @@ class MyOtherOrdinalEncoder(BaseEstimator, TransformerMixin):
             
         except KeyError:
             cols_error = list(set(self.columns) - set(X.columns))
-            raise KeyError('The DataFrame does not include the columns:' % cols_error)
+            raise KeyError('[OrdEnc] DataFrame does not include the columns:', cols_error)

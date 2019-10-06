@@ -10,3 +10,4 @@ from custom_transformers.my_time_based_features import MyTimeBasedFeatures
 from custom_transformers.my_quality_features import MyQualityFeatures
 from custom_transformers.my_rooms_features import MyRoomsFeatures
 from custom_transformers.my_space_based_features import MySpaceBasedFeatures
+from custom_transformers.my_dummy_features import MyDummyFeatures

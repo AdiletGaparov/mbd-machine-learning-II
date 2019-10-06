@@ -13,6 +13,7 @@ class MySpaceBasedFeatures(BaseEstimator, TransformerMixin):
         lot_left_percent (Bool): True (default) to include feature indicating percentage of lot space left
         bsmt_vs_lot (Bool): True (default) to include feature indicating ratio of total basement area to total lot area
         
+        
     Returns: 
         pd.DataFrame: transformed pandas DataFrame with new features
     """
@@ -34,29 +35,30 @@ class MySpaceBasedFeatures(BaseEstimator, TransformerMixin):
         try:
             
             if self.bsmt_finished_percent:
-                if X.loc[:, 'TotalBsmtSF'] > 0:
-                    X.loc[:, 'BsmtFinPercent'] = (1-X.loc['BsmtUnfSF']) / X.loc[:, 'TotalBsmtSF']
-                else:
-                    X.loc[:, 'BsmtFinPercent'] = 0
+                
+                X.loc[X['TotalBsmtSF']==0, 'BsmtFinPercent'] = 0
+                X.loc[X['TotalBsmtSF']>0, 'BsmtFinPercent'] = (1-X.loc[:, 'BsmtUnfSF']) / X.loc[:, 'TotalBsmtSF']
             
             if self.bsmt_vs_living:
-                X.loc[:, 'Bsmt_vs_LivArea'] = X.loc[:,'TotalBsmtSF'] / X.loc[:,'GrLivArea']
+                X.loc[X['GrLivArea']==0, 'Bsmt_vs_LivArea'] = 0
+                X.loc[X['GrLivArea']>0, 'Bsmt_vs_LivArea'] = X.loc[:,'TotalBsmtSF'] / X.loc[:,'GrLivArea']
                 
             if self.porch:
-                X.loc[:,'TotalPorch'] = X.loc[:, 'WoodDeckSF'] +  X.loc[:, 'OpenPorchSf'] + X.loc[:, 'EnclosedPorch'] \
+                X.loc[:,'TotalPorch'] = X.loc[:, 'WoodDeckSF'] +  X.loc[:, 'OpenPorchSF'] + X.loc[:, 'EnclosedPorch'] \
                                         + X.loc[:, '3SsnPorch'] + X.loc[:, 'ScreenPorch']
             
             if self.lot_left_percent:
-                total_porch = X.loc[:, 'WoodDeckSF'] +  X.loc[:, 'OpenPorchSf'] + X.loc[:, 'EnclosedPorch'] \
+                total_porch = X.loc[:, 'WoodDeckSF'] +  X.loc[:, 'OpenPorchSF'] + X.loc[:, 'EnclosedPorch'] \
                             + X.loc[:, '3SsnPorch'] + X.loc[:, 'ScreenPorch']
                 
-                X.loc[:,'LotLeft_percent'] = (X.loc[:,'LotArea']-X.loc[:, 'TotalBsmtSF'] \
+                X.loc[X['LotArea']==0, 'LotLeft_percent'] = 0
+                X.loc[X['LotArea']>0,'LotLeft_percent'] = (X.loc[:,'LotArea']-X.loc[:, 'TotalBsmtSF'] \
                                               - X.loc[:, 'GarageArea']-X.loc[:, 'PoolArea']-X.loc[:, 'WoodDeckSF']\
                                               -total_porch) / X.loc[:, 'LotArea']
                 
             if self.bsmt_vs_lot:
-                X.loc[:, 'Bsmt_vs_Lot'] = X.loc[:,'TotalBsmtSF'] / X.loc[:, 'LotArea']
-                
+                X.loc[X['LotArea']==0, 'Bsmt_vs_Lot'] = 0
+                X.loc[X['LotArea']>0, 'Bsmt_vs_Lot'] = X.loc[:,'TotalBsmtSF'] / X.loc[:, 'LotArea']
                 
             return X
             
@@ -66,4 +68,4 @@ class MySpaceBasedFeatures(BaseEstimator, TransformerMixin):
                            'LotArea','GarageArea','PoolArea']
             
             cols_error = list(set(cols_related) - set(X.columns))
-            raise KeyError('The DataFrame does not include the columns:' % cols_error)
+            raise KeyError('[SpaceFeatures] DataFrame does not include the columns:', cols_error)

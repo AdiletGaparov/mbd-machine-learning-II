@@ -33,8 +33,8 @@ class MyTimeBasedFeatures(BaseEstimator, TransformerMixin):
         try:
             
             if self.season:
-                season_dict = {1:'Winter',2:'Winter', 3: 'Spring':, 4: 'Spring', 
-                               5: 'Spring': 6: 'Summer': 7: 'Summer': 8: 'Summer',
+                season_dict = {1:'Winter', 2:'Winter', 3: 'Spring', 4: 'Spring', 
+                               5: 'Spring', 6: 'Summer', 7: 'Summer', 8: 'Summer',
                               9: 'Autumn', 10: 'Autumn', 11: 'Autumn', 12: 'Winter'}
                 
                 X.loc[:, 'season'] = X.loc[:,'MoSold'].replace(season_dict)
@@ -47,6 +47,7 @@ class MyTimeBasedFeatures(BaseEstimator, TransformerMixin):
                 
             if self.since_garage_built:
                 X.loc[:, 'GarageYrsSinceBuilt'] = X.loc[:, 'YrSold'] - X.loc[:, 'GarageYrBlt']
+                X.loc[X['GarageYrsSinceBuilt'] < 0, 'GarageYrsSinceBuilt'] = 0
                 
             if self.isRemodeled:
                 X.loc[:, 'isRemodeled'] = ((X.loc[:, 'YearBuilt'] - X.loc[:, 'YearRemodAdd']) > 0).astype(int)
@@ -56,7 +57,7 @@ class MyTimeBasedFeatures(BaseEstimator, TransformerMixin):
         except KeyError:
             cols_related = ['YrSold', 'YearBuilt', 'GarageYrBlt', 'YearRemodAdd', 'MoSold']
             cols_error = list(set(cols_related) - set(X.columns))
-            raise KeyError('The DataFrame does not include the columns:' % cols_error)
+            raise KeyError('[TimeFeature] DataFrame does not include the columns:', cols_error)
         
         
         
