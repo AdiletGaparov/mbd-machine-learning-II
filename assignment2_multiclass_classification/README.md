@@ -1,7 +1,7 @@
-# Pump it Up: Data Mining the Water Table. Hosted by DrivenData
+## Pump it Up: Data Mining the Water Table. Hosted by DrivenData
 Link to the competition: https://www.drivendata.org/competitions/7/pump-it-up-data-mining-the-water-table/page/23/
 
-### This project was done in a group. 
+### This project was done in a group of 7 people.
 
 ### Results
 
