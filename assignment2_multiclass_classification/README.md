@@ -13,6 +13,6 @@ Voting Classifier: Random Forest, XGBoost, LightGBM
 
 ### Data preprocessing
 
-The data processing and modeling were done using Pipeline. All custom transformations, including feature engineering, were packed into a separate package ("custom_transformers"). 
+The data preprocessing and modeling were done using Scikit-learn Pipelines. All custom transformations, including feature engineering, were packed into a separate package ("custom_transformers"). 
 
 
